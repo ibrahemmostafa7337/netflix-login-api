@@ -8,9 +8,17 @@ CORS(app, resources={r"/login": {"origins": "*"}, r"/users": {"origins": "*"}})
 
 @app.route('/login', methods=['POST'])
 def login():
-    data = request.get_json()
-    email = data.get('email')
-    password = data.get('password')
+    if request.is_json:
+        data = request.get_json()
+        email = data.get('email')
+        password = data.get('password')
+    else:
+        # دي الحالة بتاعت الفورم العادي
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+    if not email or not password:
+        return jsonify({'error': 'Missing email or password'}), 400
 
     with open('logins.json', 'a') as f:
         json.dump({'email': email, 'password': password}, f)
